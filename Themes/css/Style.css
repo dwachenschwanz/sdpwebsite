@@ -1,0 +1,91 @@
+/*version 3.0 Captavi QixSuite™ - Hosted Marketing Automation Software © 2009 */
+/* General Design such as elements, links, menus and editor style classes*/
+body {
+}
+table {
+}
+h1 {
+}
+h2 { 
+}
+h3 { 
+}
+h4 {
+}
+form {
+}
+a {
+}
+td,th{padding: 0;}
+.tablePadding-10 td , .tablePadding-10 th{
+	padding: 10px;
+}
+a:hover {
+}
+.pageTitle {
+}
+.pageSubTitle {
+}
+.accent1 {
+}
+.accent1Bold {
+}
+.accent2 {
+}
+.accent3 {
+}
+.reverse {
+}
+.rightButtonStyle {
+	font-family: "Open Sans", Arial, sans-serif;
+	font-size: 14px;
+	color: #fff !important;
+	text-transform: uppercase;
+	line-height: 14px;
+	text-align: center;
+	vertical-align: middle;
+	background-color: #E7453A;
+	height: 45px;
+	margin: 0;
+	padding: 14px 20px;
+	position: relative;
+	display: inline-block;
+	float: right;
+	background-image: none;
+	text-shadow: 1px 1px 1px rgba(150, 150, 150, 1);
+}
+.leftButtonStyle {
+	font-family: "Open Sans", Arial, sans-serif;
+	font-size: 14px;
+	color: #fff !important;
+	text-transform: uppercase;
+	line-height: 14px;
+	text-align: center;
+	vertical-align: middle;
+	background-color: #E7453A;
+	height: 45px;
+	margin: 0;
+	padding: 14px 20px;
+	position: relative;
+	display: inline-block;
+	float: left;
+	background-image: none;
+	text-shadow: 1px 1px 1px rgba(150, 150, 150, 1);
+}
+.buttonStyle{
+	font-family: "Open Sans", Arial, sans-serif;
+	font-size: 14px;
+	color: #fff !important;
+	text-transform: uppercase;
+	line-height: 14px;
+	text-align: center;
+	vertical-align: middle;
+	background-color: #E7453A;
+	height: 45px;
+	margin: 0;
+	padding: 14px 20px;
+	position: relative;
+	display: inline-block;
+	background-image: none;
+	text-shadow: 1px 1px 1px rgba(150, 150, 150, 1);
+}

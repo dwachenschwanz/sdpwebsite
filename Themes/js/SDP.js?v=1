@@ -1,0 +1,292 @@
+var QueryString = function () {
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = pair[1];
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [ query_string[pair[0]], pair[1] ];
+      query_string[pair[0]] = arr;
+    } else {
+      query_string[pair[0]].push(pair[1]);
+    }
+  } 
+    return query_string;
+} ();
+
+$(".navbar #menu_main").addClass("nav navbar-nav pull-right");
+$(".bottom #menu_main").addClass("bottomlinks").find("li > ul").hide();
+/*$("#daag-link").on('click', function(e) {
+  e.preventDefault();
+  var target = this.hash,
+  $target = $(target);
+  $('html, body').stop().animate({
+    'scrollTop': $target.offset().top
+  }, 1000, 'swing', function() {
+    window.location.hash = target;
+  });
+});*/
+
+if ($('#homepage #menu_main').length){
+  var i = 0;
+  var ii = 0;
+  var iii = 0;
+  $("#undefined-sticky-wrapper #menu_main > li").each(function(){
+    if (!$(this).hasClass("link")) {
+      i++;
+      if (i === 3) {i=1};
+      var url = $(this).find("> a").attr("href");
+      domain = "https://"+window.location.hostname+"/";
+      url = url.replace(domain, "");
+      url = url.replace("https://decisionprofessionals.com/", "");
+      if (url.length === 0){//This is home link
+        $(this).addClass(url);
+        $(this).find("> a").attr("href","#homepage");
+      } else {
+        ii++;
+        url = url.replace("/index", "");
+        $(this).addClass(url);
+        $(this).find("> a").attr("href","#"+url).on('click', function(e) {
+          e.preventDefault();
+          var target = this.hash,
+          $target = $(target);
+          $('html, body').stop().animate({
+            'scrollTop': $target.offset().top
+          }, 1000, 'swing', function() {
+            window.location.hash = target;
+          });
+        });
+
+        $(this).addClass("current");
+        $(this).waypoint(function() {
+          $("#menu_page li").removeClass("current");
+          $(this).addClass("current");
+        }, { offset: 315 });
+        
+        $("#bandContent").append("<div id='"+url+"' class='section"+i+"'><img src='/assets/images/content-images/template-images/loader.gif' alt='... Loading ...'/></div>");
+        var link = domain+url;
+        $("#"+url).load(link+" #dynamicContent section", function(response) {
+          iii++;
+          $(".section2").find("section.section1").addClass("section2").removeClass("section1");
+          //Events feed date parser
+          $(".oneevent").each(function(){
+            var dateStr = $(this).find("div.unparsedDate").html();
+            var dateTimeArray = dateStr.split("<br>");
+            $(this).find(".time").html(dateTimeArray[1]);
+            var dateArray = dateTimeArray[0].split(" ");
+            if (dateArray.length > 3) {
+              var day = dateArray[1].slice(0,1)+" - "+dateArray[3].slice(0,-1);
+              var month = dateArray[0];
+              var year = dateArray[4];
+            } else {
+              var day = dateArray[1].slice(0,-1);
+              var month = dateArray[0];
+              var year = dateArray[2];
+            };
+            $(this).find(".day").html(day);
+            $(this).find(".month").html(month);
+            $(this).find(".year").html(year);
+          });
+          $(".animated").removeClass("animated");
+          //Element to Testimonial conversion
+          $("#custom2_mod").addClass("bxtestimonials").attr("id","bxtestimonials");
+          $('.bxtestimonials').bxSlider({
+            mode: 'horizontal', adaptiveHeight: false, controls: false
+          });
+          if (ii === iii) {
+            //animation triger
+            $('.startAnimation').waypoint(function() {
+              var animationclass = $(this).attr('data-animate');
+              $(this).css('opacity', '1');
+              $(this).addClass("animated " + animationclass);
+            },
+            {
+              offset: '100%',
+              triggerOnce: true
+            });
+            //Scroll handling when comeing from second level to first level
+            if(window.location.href.indexOf("scrollTo") != -1) {
+              var target = QueryString.scrollTo;
+              $target = $("#"+target);
+              $('html, body').stop().animate({
+                'scrollTop': $target.offset().top
+              }, 1000, 'swing', function() {
+                window.location.hash = target;
+              });
+            }
+          };
+          //Membership Menu to Selectbox conversion
+          if(url === "membership") {
+            var options = "<option value='#_'>Select Your Membership</option>";
+            $("#membership ul#menu_page li").each(function(){
+              var value = $(this).find("a").attr("href");
+              var option = $(this).find("a").html();
+              options = options+"<option value='"+value+"'>"+option+"</option>";
+            });
+            $("#membership ul#menu_page").before("<select id='#membershipSelect' onchange='if (this.value) window.location.href=this.value'>"+options+"</select>");
+          }
+          //Create Library Select Menu's
+          $('ul#menu_footer').each(function() {
+              var list = $(this), select = $(document.createElement('select')).insertBefore($(this).hide());
+              $(select)
+                .addClass("selectMenu")
+                .wrap("<form id='selectFormTopic' action='#' data-ajax='false'></form>");
+              $("#selectFormTopic .selectMenu").on('change', function() {
+                  var action = $(this).val();
+                  document.location=action;
+              });
+              $(document.createElement('option')).appendTo(select).val(this.href).html("Search By Topic");
+              $('>li a', this).each(function() {
+                  var target = $(this).attr('target'),
+                  option = $(document.createElement('option'))
+                      .appendTo(select)
+                      .val(this.href)
+                      .html($(this).html());
+              });
+              list.remove();
+          });
+          $('ul#menu_subfooter').each(function() {
+              var list = $(this), select = $(document.createElement('select')).insertBefore($(this).hide());
+              $(select)
+                .addClass("selectMenu")
+                .wrap("<form id='selectFormIndustry' action='#' data-ajax='false'></form>");
+              $("#selectFormIndustry .selectMenu").on('change', function() {
+                  var action = $(this).val();
+                  document.location=action;
+              });
+              $(document.createElement('option')).appendTo(select).val(this.href).html("Search By Industry");
+              $('>li a', this).each(function() {
+                  var target = $(this).attr('target'),
+                  option = $(document.createElement('option'))
+                      .appendTo(select)
+                      .val(this.href)
+                      .html($(this).html());
+              });
+              list.remove();
+          });
+          $('ul#menu_extra').each(function() {
+              var list = $(this), select = $(document.createElement('select')).insertBefore($(this).hide());
+              $(select)
+                .addClass("selectMenu")
+                .wrap("<form id='selectFormSource' action='#' data-ajax='false'></form>");
+              $("#selectFormSource .selectMenu").on('change', function() {
+                  var action = $(this).val();
+                  document.location=action;
+              });
+              $(document.createElement('option')).appendTo(select).val(this.href).html("Search By Source");
+              $('>li a', this).each(function() {
+                  var target = $(this).attr('target'),
+                  option = $(document.createElement('option'))
+                      .appendTo(select)
+                      .val(this.href)
+                      .html($(this).html());
+              });
+              list.remove();
+          });
+          if (url === "jobs") {
+            //$(this).append($(response).find('#pageContent'));
+          }
+        });
+      }
+    }
+    $("#menu_main li.sponsors a").attr("href","#sponsors").on('click', function(e) {
+      e.preventDefault();
+      var target = this.hash,
+      $target = $(target);
+      $('html, body').stop().animate({
+        'scrollTop': $target.offset().top
+      }, 1000, 'swing', function() {
+        window.location.hash = target;
+      });
+    });
+  });
+  $(".bottom #menu_main > li").each(function(){
+    if (!$(this).hasClass("link")) {
+      var url = $(this).find("> a").attr("href");
+      domain = "https://"+window.location.hostname+"/";
+      domain = domain.replace("www.", "");
+      url = url.replace(domain, "");
+      url = url.replace("/index", "");
+      $(this).addClass(url);
+      $(this).find("> a").attr("href","#"+url).on('click', function(e) {
+        e.preventDefault();
+        var target = this.hash,
+        $target = $(target);
+        $('html, body').stop().animate({
+          'scrollTop': $target.offset().top
+        }, 1000, 'swing', function() {
+          window.location.hash = target;
+        });
+      });
+    };
+  });
+  //Element Block 1
+  $("#custom1_mod").addClass("slides");
+  $("#custom1_mod > li.hide").remove();
+};
+
+if ($('#secondLevel').length){
+  $("#secondLevel").removeClass("loading");
+  var headingText = $("#pageContent h1").hide().html();
+  $(".mainheadlinepage h1").html(headingText);
+  $("#undefined-sticky-wrapper #menu_main > li").each(function(){
+    if (!$(this).hasClass("link")) {
+        var url = $(this).find("> a").attr("href");
+        var domain = "https://"+window.location.hostname+"/";
+        url = url.replace(domain, "");
+        url = url.replace("/index", "");
+        if (url.length === 0){//This is home link
+          $(this).find("> a").attr("href",domain);
+        } else {
+          $(this).find("> a").attr("href",domain+"?scrollTo="+url);
+        }
+    };
+  });
+  $(".bottom #menu_main > li").each(function(){
+    if (!$(this).hasClass("link")) {
+        var url = $(this).find("> a").attr("href");
+        var domain = "https://"+window.location.hostname+"/";
+        url = url.replace(domain, "");
+        url = url.replace("/index", "");
+        if (url.length === 0){//This is home link
+          $(this).find("> a").attr("href",domain);
+        } else {
+          $(this).find("> a").attr("href",domain+"?scrollTo="+url);
+        }
+    };
+  });
+  $('#formModal').on('hidden.bs.modal', function (e) {
+    $(".modal-content").html(" ");
+  });
+  $('#formModal').on('show.bs.modal', function (e) {
+    var button = $(e.relatedTarget);
+    var href = button.attr('href');
+    $(".modal-content").load( href , function() {
+      $(this).prepend('<div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><h4 class="modal-title" id="modalLabel">..Loading..</h4></div>');
+      var title = $(this).find("h1").hide().html();
+      $("#modalLabel").html(title);
+    });
+  });
+  // if Articles add button
+  if(window.location.href.indexOf("articles?") != -1) {
+    if (window.location.href.indexOf("articles?search=1") != -1) {
+    } else {
+      $(".footerPageLinks").append("<div style='display:block;padding-top:10px;'>Didn't find what you were looking for? <a href='https://www.decisionprofessionals.com/forms/ebxauzyxyy57yt'>Click here.</a></div>");
+      console.log("Library button needed.");
+    };
+  }
+  $(".landingInsert").each(function(index, el) {
+    var landingInsert = $(this);
+    landingInsert.on('load',function() {
+      // console.log("$(this).contents().find(\"body\").height()", $(this).contents().find("form").height());
+      $(this).fadeIn('slow').height($(this).contents().find("form").height()+120);
+    });
+  });
+  $("#secondLevel .captaviStructureBand .inpageMenu").each(function(index, el) {
+    var numItems = $(this).find("li").length;
+    var percentage = 100 / numItems;
+    $(this).find("li").css("width", percentage + "%");
+  });
+};

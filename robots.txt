@@ -1,0 +1,10 @@
+# Disallow directories
+
+User-agent: *
+Crawl-delay: 120
+Disallow: /admin/
+Disallow: /assetmanager/
+Disallow: /cgibin/
+Disallow: /phpmailer/
+Disallow: /scripts/
+Disallow: /temp/

@@ -1,0 +1,184 @@
+(function($) {
+  // twitterFetcher.fetch('530430179504451584', 'example1', 1,true,    true, false);
+})(jQuery); 
+
+
+ (function($) { 
+   $("#owl-demo1").owlCarousel({
+     navigation: false,
+     pagination: true,
+     autoPlay: true,
+     responsiveRefreshRate: 200,
+     items: 3,
+     itemsDesktop: [1199,3],
+     itemsTablet: [970,2],
+     itemsMoblie: [500,1],
+     navigationText: false
+    });
+})(jQuery);
+
+
+//media queries and functions
+(function ($){
+  $(function (){
+    $smallscreen_parallax();
+    $(window).resize(function () {
+    $smallscreen_parallax()
+    });
+  });
+  
+  const afterSlideChangeHandler = () => {
+    const custom1Mod = document.getElementById('custom1_mod');
+    if (custom1Mod === null) {
+      return;
+    }
+    const slides = custom1Mod.children;
+    let activeElement = null;
+    for (let i = 0; i < slides.length; i++) {
+      if (slides[i].classList.contains('flex-active-slide')) {
+        activeElement = slides[i];
+        break;
+      }
+    }
+
+    const elemSearch = $('.slidertext');
+    
+    if (activeElement && elemSearch.length > 0) {
+      const bubbleEl = elemSearch[0];
+      if (activeElement.classList.contains('hide-slide')) {
+        $(bubbleEl).hide();
+        // Because something creates an empty span that breaks clickable behavior
+        const spans = activeElement.getElementsByTagName('span');
+        for (let i = 0; i < spans.length; i++) {
+          if (spans[i].innerText.trim() === '') activeElement.removeChild(spans[i]);
+        }
+      } else {
+        $(bubbleEl).show();
+      }
+    }
+  };
+  
+  $( document ).ready(() => {
+     afterSlideChangeHandler();
+	});
+
+  $smallscreen_parallax = function (){
+    if ( $(window).width() <= 767 ) {
+      //remove parallax
+      $('.section3').parallax("0", 0.2);
+      $('.section4').parallax("0", 0.2);
+
+      //add flexslider without animation triger
+      $(document).ready(function() {
+        $('.flexslider').flexslider({
+          animation: "fade",
+          navigation:false,
+          slideshowSpeed: 6000,
+          animationSpeed: 600,
+          start: function(){
+            $('body').removeClass('loading');
+            $('.slidertexthide').removeClass('slidertexthide');
+          }, // end start
+          after: afterSlideChangeHandler
+        }); // flexslider
+      }); // document.ready
+    } else {
+      //add parallax
+      $('.section3').parallax("50%", 0.2);
+      $('.section4').parallax("50%", 0.2);
+ 
+      //add flexslider with animation triger
+      $(document).ready(function() {
+        $('.flexslider').flexslider({
+          animation: "fade",
+          navigation:false,
+          slideshowSpeed: 6000,           
+          animationSpeed: 600,  
+          start: function(){
+            $('body').removeClass('loading');
+            $('.slidertexthide').removeClass('slidertexthide');
+
+            //animation triger
+            $('.startAnimation').waypoint(function() {
+              var animationclass = $(this).attr('data-animate');
+              $(this).css('opacity', '1');
+              $(this).addClass("animated " + animationclass);
+            }, {
+              offset: '100%',
+              triggerOnce: true
+            });
+          }, // end start
+          after: afterSlideChangeHandler
+        }); // flexslider
+      }); // document.ready
+    } // if windowwidth
+  }
+})(jQuery);
+
+(function($) {
+  var menu = $('.navbar');
+    $(window).scroll(function() {
+  });
+
+  $('.navbar a[href^="#"]').on('click', function(e) {
+  e.preventDefault();
+  var target = this.hash,
+  $target = $(target);
+  $('html, body').stop().animate({
+    'scrollTop': $target.offset().top
+  }, 1000, 'swing', function() {
+    window.location.hash = target;
+  });
+  });
+
+  $('.bottomlinks a[href^="#"]').on('click', function(e) {
+  e.preventDefault();
+  var target = this.hash,
+  $target = $(target);
+  $('html, body').stop().animate({
+    'scrollTop': $target.offset().top
+  }, 1000, 'swing', function() {
+    window.location.hash = target;
+  });
+  });
+
+  $('.eventsscroll a[href^="#"]').on('click', function(e) {
+  e.preventDefault();
+  var target = this.hash,
+  $target = $(target);
+  $('html, body').stop().animate({
+    'scrollTop': $target.offset().top
+  }, 1000, 'swing', function() {
+    window.location.hash = target;
+  });
+  });
+})(jQuery); 
+
+
+(function($) {
+  $('.sticker').scrollspy(); 
+})(jQuery);
+
+(function($) {
+  $(".sticker").sticky(); 
+})(jQuery);
+
+
+(function($){
+  $(window).load(function() {
+    // Masonry Trigger
+    var $container = $('#masonrycontainer');
+    $container.masonry({
+    itemSelector: '.masonryselector' 
+    });
+  }); 
+})(jQuery);
+
+
+function scrollToTop($) {
+  jQuery('html, body').animate({
+      scrollTop: 0
+  }, 'slow');
+}(jQuery);
+
+
